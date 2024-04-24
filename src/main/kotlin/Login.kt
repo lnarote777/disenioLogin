@@ -1,6 +1,7 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,6 +24,7 @@ fun Login() {
 
     MaterialTheme {
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -33,7 +35,7 @@ fun Login() {
             OutlinedTextField(
                 value = usuario,
                 onValueChange = { usuario = it },
-                label = { Text("Usuario") },
+                label = { Text("Usuario") }
             )
 
             OutlinedTextField(
