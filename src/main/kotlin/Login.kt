@@ -31,36 +31,53 @@ fun Login() {
             var usuario by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
             var viewPassword by remember { mutableStateOf(false) }
+            var buttonEnable = usuario.isNotBlank() && password.isNotBlank()
 
-            OutlinedTextField(
-                value = usuario,
-                onValueChange = { usuario = it },
-                label = { Text("Usuario") }
-            )
+            UsuarioView(usuario) { usuario = it }
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text(text = "Contraseña") },
-                visualTransformation = if (viewPassword) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    IconToggleButton(
-                        checked = viewPassword,
-                        onCheckedChange = {viewPassword = it}
-                    ){
-                        Icon(
-                            imageVector = if (viewPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                            contentDescription = "View"
-                        )
-                    }
-                }
-            )
+            ViewPassword(password, { password = it }, viewPassword, {viewPassword = it})
 
-            Button(
-                onClick = {usuario = ""; password = ""},
+            Boton({usuario = ""; password = ""}, buttonEnable)
+        }
+    }
+}
+
+@Composable
+fun UsuarioView(usuario: String, onValueChange:(String)->Unit){
+    OutlinedTextField(
+        value = usuario,
+        onValueChange = onValueChange,
+        label = { Text("Usuario") }
+    )
+}
+
+@Composable
+fun ViewPassword(password: String, onValueChange:(String)->Unit, viewPassword: Boolean, onCheckedChange:(Boolean)->Unit){
+    OutlinedTextField(
+        value = password,
+        onValueChange = onValueChange,
+        label = { Text(text = "Contraseña") },
+        visualTransformation = if (viewPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            IconToggleButton(
+                checked = viewPassword,
+                onCheckedChange = onCheckedChange
             ){
-                Text("Login")
+                Icon(
+                    imageVector = if (viewPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                    contentDescription = "View"
+                )
             }
         }
+    )
+}
+
+@Composable
+fun Boton(onClick: () -> Unit, buttonEnable: Boolean){
+    Button(
+        onClick = onClick,
+        enabled = buttonEnable
+    ){
+        Text("Login")
     }
 }
